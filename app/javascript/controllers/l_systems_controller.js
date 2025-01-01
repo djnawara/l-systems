@@ -5,7 +5,7 @@ import Renderer from 'modules/renderer';
 import PresetLSystems from 'modules/presets';
 
 export default class extends Controller {
-  static targets = ['canvas', 'branchColor', 'branchWidth', 'branchLength', 'branchAlpha', 'branchAngle', 'leafColor', 'leafWidth', 'leafLength', 'iterations', 'preset'];
+  static targets = ['canvas', 'branchColor', 'branchWidth', 'branchLength', 'branchAlpha', 'branchAngle', 'leafColor', 'leafFillType', 'leafWidth', 'leafLength', 'iterations', 'preset'];
 
   lSystem;
   lSystems;
@@ -62,6 +62,9 @@ export default class extends Controller {
   }
 
   _config(defaultConfiguration) {
+    const leafFillTypeRadio = this.leafFillTypeTargets.filter((radio) => radio.checked)[0];
+    const leafFillType = leafFillTypeRadio ? leafFillTypeRadio.value : defaultConfiguration.leaf.fillType;
+
     return {
       system: {
         iterations: this.iterationsTarget.value || defaultConfiguration.system.iterations
@@ -77,12 +80,14 @@ export default class extends Controller {
         color: this.leafColorTarget.value.substring(1) || defaultConfiguration.leaf.color,
         width: parseFloat(this.leafWidthTarget.value) || defaultConfiguration.leaf.width,
         length: parseFloat(this.leafLengthTarget.value) || defaultConfiguration.leaf.length,
+        fillType: leafFillType
       },
     };
   }
 
   _initializeRenderer() {
-    this.renderer = new Renderer(this.canvasTarget, this.lSystem.renderingConfig);
+    let configWithoutConsideringInputs = this.lSystem.renderingConfig;
+    this.renderer = new Renderer(this.canvasTarget, configWithoutConsideringInputs);
   }
 
   _setControlValuesFromConfig(config) {
@@ -99,6 +104,9 @@ export default class extends Controller {
     this.leafColorTarget.value = this.renderer.leafColor;
     this.leafWidthTarget.value = config.leaf.width;
     this.leafLengthTarget.value = config.leaf.length;
+    this.leafFillTypeTargets
+      .filter((radio) => radio.value === config.leaf.fillType)
+      .forEach((radio) => radio.checked = true);
   }
 
   _setCanvasSize() {

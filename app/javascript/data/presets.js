@@ -8,11 +8,13 @@ const PresetData = [
     configOverrides: {
       system: { iterations: 6 },
       branch: {
-        width: 3
+        width: 3,
+        length: 6
       },
       leaf: {
-        width: 3,
-        length: 4
+        width: 6,
+        length: 8,
+        fillType: 'rainbow'
       }
     }
   },
@@ -29,7 +31,8 @@ const PresetData = [
       },
       leaf: {
         length: 8,
-        width: 6
+        width: 6,
+        fillType: 'colors'
       }
     }
   },
@@ -45,7 +48,8 @@ const PresetData = [
       branch: { length: 10 },
       leaf: {
         length: 4,
-        width: 6
+        width: 6,
+        fillType: 'colors'
       }
     }
   },
@@ -62,7 +66,8 @@ const PresetData = [
       },
       leaf: {
         length: 10,
-        width: 3
+        width: 3,
+        fillType: 'colors'
       }
     }
   },

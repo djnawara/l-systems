@@ -55,6 +55,9 @@ export default class Renderer {
   }
 
   updateConfig(config) {
+    if (config.leaf.fillType !== this.config.leaf.fillType) {
+      this.gradients = this._makeLeafGradients(this.context2D, config);
+    }
     this.config = config;
   }
 
@@ -84,14 +87,51 @@ export default class Renderer {
   }
 
   _makeLeafGradients(context2D, config) {
-    const leafColors = this._getLeafColors(config);
-    this.leafColor = leafColors[0];
-    const darkLeafColors = this._getDarkLeafColors(leafColors);
+    switch(config.leaf.fillType) {
+      case 'colors':
+        const leafColors = this._getLeafColors(config);
+        const darkLeafColors = this._getDarkLeafColors(leafColors);
+        this.leafColor = leafColors[0];
 
-    return leafColors.map((color, index) => {
-      const gradient = context2D.createLinearGradient(1, 0, -1, -4);
-      let darkColor = darkLeafColors[index];
-      let lightColor = leafColors[index];
+        return leafColors.map((color, index) => {
+          const gradient = context2D.createLinearGradient(1, 0, -1, -4);
+          let darkColor = darkLeafColors[index];
+          let lightColor = leafColors[index];
+          this.leafColor = lightColor;
+          gradient.addColorStop(0, darkColor);
+          gradient.addColorStop(1, lightColor);
+          return gradient;
+        });
+      case 'rainbow':
+        return this._buildRainbowGradients(context2D);
+      case 'masked-rainbow':
+        const rainbowColors = ['#BB0000', '#BB6600', '#BBBB00', '#00BB00', '#0000BB', '#BB00BB'];
+        const darkRainbowColors = rainbowColors.map(color => {
+          return this._darken(color);
+        });
+
+        const gradient = context2D.createLinearGradient(1, 0, this.canvas.width, this.canvas.height);
+        rainbowColors.map((color, index) => {
+          gradient.addColorStop(index / 5, color);
+        });
+        this.leafColor = rainbowColors[0];
+        return [gradient];
+      default:
+        return ['#000000']
+    }
+  }
+
+  _buildRainbowGradients(context2D) {
+    const rainbowColors = ['#BB0000', '#BB6600', '#AAAA00', '#00AA00', '#0000BB', '#BB00BB'];
+    const darkRainbowColors = rainbowColors.map(color => {
+      return this._darken(color, -160);
+    });
+
+    this.leafColor = rainbowColors[0];
+    return rainbowColors.map((color, index) => {
+      const gradient = context2D.createLinearGradient(1, 0, -1, -2);
+      let darkColor = darkRainbowColors[index];
+      let lightColor = rainbowColors[index];
       gradient.addColorStop(0, darkColor);
       gradient.addColorStop(1, lightColor);
       return gradient;
@@ -139,7 +179,7 @@ export default class Renderer {
 
     return '#' + adjustedColor;
   }
-  _darken(hexColor) {
-    return this._adjustColor(hexColor.substring(1), -128, true);
+  _darken(hexColor, adjustment = -128) {
+    return this._adjustColor(hexColor.substring(1), adjustment, true);
   }
 }
