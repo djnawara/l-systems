@@ -66,23 +66,28 @@
       <div class="text-lg font-bold mb-3 border-b border-gray-700">Leaves</div>
       <div class="text-md">
         <div class="flex justify-between">
-          <div><label for="leaf-color" class="font-bold">Color:</label></div>
-          <div>
-            <input id="leaf-color" class="bg-gray-800" type="color" name="body" value="#ffffff" data-action="input->l-systems#update" data-l-systems-target="leafColor"></input>
-          </div>
-        </div>
-        <div class="flex justify-between">
           <div class="flex gap-1">
             <div>
               <input id="leaf-fill-type-colors" type="radio" name="body" value="colors" data-action="input->l-systems#update" data-l-systems-target="leafFillType"></input>
             </div>
-            <div><label for="leaf-fill-type-colors" class="font-bold">Colors</label></div>
+            <div><label for="leaf-fill-type-colors" class="font-bold">Single Color</label></div>
+          </div>
+          <div>
+            <input id="leaf-color" class="bg-gray-800" type="color" name="body" value="#ffffff" data-action="input->l-systems#update" data-l-systems-target="leafColor"></input>
+          </div>
+        </div>
+        <div class="flex flex-wrap justify-between">
+          <div class="flex gap-1">
+            <div>
+              <input id="leaf-fill-type-linear-rainbow" type="radio" name="body" value="linear-rainbow" data-action="input->l-systems#update" data-l-systems-target="leafFillType"></input>
+            </div>
+            <div><label for="leaf-fill-type-linear-rainbow" class="font-bold">Linear Rainbow</label></div>
           </div>
           <div class="flex gap-1">
             <div>
               <input id="leaf-fill-type-rainbow" type="radio" name="body" value="rainbow" data-action="input->l-systems#update" data-l-systems-target="leafFillType"></input>
             </div>
-            <div><label for="leaf-fill-type-rainbow" class="font-bold">Rainbow</label></div>
+            <div><label for="leaf-fill-type-rainbow" class="font-bold">Random Rainbow</label></div>
           </div>
         </div>
         <div class="flex justify-between">

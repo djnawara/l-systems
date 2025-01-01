@@ -3,12 +3,16 @@
 export default class Renderer {
   leafColor;
 
-  constructor(canvas, config) {
+  constructor(canvas, config, sentence) {
     this.numberOfColors = 16;
     this.canvas = canvas;
     this.config = config;
     this.context2D = this.canvas.getContext('2d');
-    this.gradients = this._makeLeafGradients(this.context2D, config);
+    this.gradients = this._makeLeafGradients(this.context2D, config, sentence);
+    this.x1 = 0;
+    this.y1 = 0;
+    this.x2 = 0;
+    this.y2 = 0;
   }
 
   render(sentence) {
@@ -20,14 +24,13 @@ export default class Renderer {
     context2D.clearRect(0, 0, this.canvas.width, this.canvas.height);
     context2D.transform(1, 0, 0, 1, this.canvas.width / 2, this.canvas.height);
 
+    let leafIndex = 0;
+
     for (let i = 0; i < sentence.length; i++) {
       const c = sentence[i];
 
       if (c === 'F') {
-        context2D.fillStyle = config.branch.color;
-        context2D.globalAlpha = config.branch.alpha;
-        context2D.fillRect(0, 0, config.branch.width, - config.branch.length);
-        context2D.transform(1, 0, 0, 1, 0, -config.branch.length);
+        this._drawBranch(context2D, config);
       } else if (c === '+') {
         context2D.rotate(config.branch.angle * Math.PI / 180);
       } else if (c === '-') {
@@ -35,27 +38,44 @@ export default class Renderer {
       } else if (c === '[') {
         context2D.save();
       } else if (c === ']') {
-        const randomIndex = Math.round(Math.random() * (gradients.length - 1));
-        context2D.fillStyle = gradients[randomIndex];
-        context2D.globalAlpha = 0.90;
-        context2D.scale(config.leaf.width, config.leaf.length);
-
-        context2D.beginPath();
-        context2D.moveTo(0, 0);
-        context2D.lineTo(1, -1);
-        context2D.lineTo(0, -4);
-        context2D.lineTo(-1, -1);
-        context2D.lineTo(0, 0);
-        context2D.closePath();
-        context2D.fill();
-
-        context2D.restore();
+        this._drawLeaf(gradients, context2D, config, leafIndex++);
       }
     }
   }
 
+  _drawBranch(context2D, config) {
+    context2D.fillStyle = config.branch.color;
+    context2D.globalAlpha = config.branch.alpha;
+    context2D.fillRect(0, 0, config.branch.width, -config.branch.length);
+    context2D.transform(1, 0, 0, 1, 0, -config.branch.length);
+  }
+
+  _drawLeaf(gradients, context2D, config, leafIndex) {
+    let colorIndex;
+    if (config.leaf.fillType === 'linear-rainbow') {
+      colorIndex = leafIndex % this.gradients.length;
+    } else {
+      colorIndex = Math.round(Math.random() * (gradients.length - 1));
+    }
+
+    context2D.fillStyle = gradients[colorIndex];
+    context2D.globalAlpha = 0.85;
+    context2D.scale(config.leaf.width, config.leaf.length);
+
+    context2D.beginPath();
+    context2D.moveTo(0, 0);
+    context2D.lineTo(1, -1);
+    context2D.lineTo(0, -4);
+    context2D.lineTo(-1, -1);
+    context2D.lineTo(0, 0);
+    context2D.closePath();
+    context2D.fill();
+
+    context2D.restore();
+  }
+
   updateConfig(config) {
-    if (config.leaf.fillType !== this.config.leaf.fillType) {
+    if (config.leaf.fillType !== this.config.leaf.fillType || config.leaf.color !== this.config.leaf.color) {
       this.gradients = this._makeLeafGradients(this.context2D, config);
     }
     this.config = config;
@@ -104,17 +124,51 @@ export default class Renderer {
         });
       case 'rainbow':
         return this._buildRainbowGradients(context2D);
-      case 'masked-rainbow':
-        const rainbowColors = ['#FF0000', '#FF6600', '#FFFF00', '#00FF00', '#0000FF', '#FF00FF'];
-        const gradient = context2D.createLinearGradient(0, 0, this.canvas.width, this.canvas.height);
-        rainbowColors.map((color, index) => {
-          gradient.addColorStop(index / 5, color);
-        });
-        this.leafColor = rainbowColors[0];
-        return [gradient];
+      case 'linear-rainbow':
+        return this._buildRainbowInterpolations(context2D);
       default:
         return ['#000000']
     }
+  }
+
+  _buildRainbowInterpolations(context2D) {
+    const baseRainbowColors = ['#FF0000', '#FF6600', '#FFFF00', '#00FF00', '#0000FF', '#FF00FF'];
+    const desiredInterpolations = 15;
+    let rainbowColors = [];
+
+    for (let roygbvIndex = 0; roygbvIndex < (baseRainbowColors.length - 1); roygbvIndex++) {
+      const color1 = baseRainbowColors[roygbvIndex];
+      const color2 = baseRainbowColors[roygbvIndex + 1];
+      rainbowColors.push(color1);
+      const color1Dec = parseInt(color1.substring(1), 16);
+      const color2Dec = parseInt(color2.substring(1), 16);
+      const color1R = (color1Dec >> 16) & 255;
+      const color1G = (color1Dec >> 8) & 255;
+      const color1B = color1Dec & 255;
+      const color2R = (color2Dec >> 16) & 255;
+      const color2G = (color2Dec >> 8) & 255;
+      const color2B = color2Dec & 255;
+
+      let interpolations = [];
+      for (let interpolationIndex = 0; interpolationIndex < desiredInterpolations; interpolationIndex++) {
+        const percent = (interpolationIndex + 1) / desiredInterpolations;
+        const colorR = Math.floor(color1R + (color2R - color1R) * percent);
+        const colorG = Math.floor(color1G + (color2G - color1G) * percent);
+        const colorB = Math.floor(color1B + (color2B - color1B) * percent);
+        const interpolatedColor = '#' + colorR.toString(16).padStart(2, '0') + colorG.toString(16).padStart(2, '0') + colorB.toString(16).padStart(2, '0');
+        interpolations.push(interpolatedColor);
+      }
+
+      rainbowColors = rainbowColors.concat(interpolations);
+    }
+    rainbowColors.push(baseRainbowColors[baseRainbowColors.length - 1]);
+    return rainbowColors.map((color, index) => {
+      const gradient = context2D.createLinearGradient(1, 0, -1, -2);
+      let darkColor = this._darken(color, -208);
+      gradient.addColorStop(0, darkColor);
+      gradient.addColorStop(1, color);
+      return gradient;
+    });
   }
 
   _buildRainbowGradients(context2D) {

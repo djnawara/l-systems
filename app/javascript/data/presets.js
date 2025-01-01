@@ -9,7 +9,8 @@ const PresetData = [
       system: { iterations: 6 },
       branch: {
         width: 3,
-        length: 6
+        length: 6,
+        alpha: 0.4
       },
       leaf: {
         width: 6,
@@ -45,7 +46,10 @@ const PresetData = [
     ],
     configOverrides: {
       system: { iterations: 5},
-      branch: { length: 10 },
+      branch: {
+        length: 10,
+        alpha: 0.4
+      },
       leaf: {
         length: 4,
         width: 6,
@@ -62,6 +66,7 @@ const PresetData = [
       system: { iterations: 3 },
       branch: {
         angle: 38,
+        alpha: 0.4,
         length: 12
       },
       leaf: {
