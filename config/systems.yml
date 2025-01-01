@@ -1,0 +1,35 @@
+:default_config: &default_config
+  :branch:
+    :angle: 22.5
+    :color: 80461B
+    :length: 4
+    :width: 2
+  :leaf:
+    :color: B31B1B
+    :length: 5
+    :width: 4
+
+:l_systems:
+  - :axiom: X
+    :rules:
+      - :symbol: F
+        :replacement: FF
+        :odds: 1.0
+      - :symbol: X
+        :replacement: F+[-F-XF-X][+FF][--XF[+X]][++F-X]
+        :odds: 1.0
+    :default_config:
+      <<: *default_config
+  - :axiom: X
+    :rules:
+      - :symbol: F
+        :replacement: FX[FX[+XF]]
+        :odds: 1.0
+      - :symbol: X
+        :replacement: FF[+XZ++X-F[+ZX]][-X++F-X]
+        :odds: 1.0
+      - :symbol: Z
+        :replacement: [+F-X-F][++ZX]
+        :odds: 1.0
+    :default_config:
+      <<: *default_config
