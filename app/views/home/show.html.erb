@@ -11,13 +11,13 @@
         <div class="flex justify-between">
           <div><label for="l-system-preset" class="font-bold">Preset:</label></div>
           <div>
-            <input id="l-system-preset" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0" max="3" step="1" data-action="change->l-systems#update" data-l-systems-target="preset">
+            <input id="l-system-preset" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0" max="3" step="1" data-action="input->l-systems#update" data-l-systems-target="preset">
           </div>
         </div>
         <div class="flex justify-between">
           <div><label for="l-system-iterations" class="font-bold">Iterations:</label></div>
           <div>
-            <input id="l-system-iterations" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="1" max="7" step="1" data-action="change->l-systems#update" data-l-systems-target="iterations">
+            <input id="l-system-iterations" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="1" max="7" step="1" data-action="input->l-systems#update" data-l-systems-target="iterations">
           </div>
         </div>
       </div>
@@ -32,25 +32,31 @@
         <div class="flex justify-between">
           <div><label for="branch-color" class="font-bold">Color:</label></div>
           <div>
-            <input id="branch-color" class="color" type="color" name="body" value="#80461B" data-action="change->l-systems#update" data-l-systems-target="branchColor"></input>
+            <input id="branch-color" class="color" type="color" name="body" value="#80461B" data-action="input->l-systems#update" data-l-systems-target="branchColor"></input>
           </div>
         </div>
         <div class="flex justify-between">
           <div><label for="branch-width" class="font-bold">Width:</label></div>
           <div>
-            <input id="branch-width" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0.5" max="10.0" step="0.5" data-action="change->l-systems#update" data-l-systems-target="branchWidth">
+            <input id="branch-width" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0.5" max="10.0" step="0.5" data-action="input->l-systems#update" data-l-systems-target="branchWidth">
           </div>
         </div>
         <div class="flex justify-between">
           <div><label for="branch-length" class="font-bold">Length:</label></div>
           <div>
-            <input id="branch-length" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0.5" max="20.0" step="0.5" data-action="change->l-systems#update" data-l-systems-target="branchLength">
+            <input id="branch-length" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0.5" max="20.0" step="0.5" data-action="input->l-systems#update" data-l-systems-target="branchLength">
+          </div>
+        </div>
+        <div class="flex justify-between">
+          <div><label for="branch-alpha" class="font-bold">Alpha:</label></div>
+          <div>
+            <input id="branch-alpha" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0.1" max="1.0" value="0.3" step="0.1" data-action="input->l-systems#update" data-l-systems-target="branchAlpha">
           </div>
         </div>
         <div class="flex justify-between">
           <div><label for="branch-angle" class="font-bold">Angle:</label></div>
           <div>
-            <input id="branch-angle" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="8.0" max="50.0" value="22.5" step="0.5" data-action="change->l-systems#update" data-l-systems-target="branchAngle">
+            <input id="branch-angle" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="8.0" max="50.0" value="22.5" step="0.5" data-action="input->l-systems#update" data-l-systems-target="branchAngle">
           </div>
         </div>
       </div>
@@ -62,19 +68,19 @@
         <div class="flex justify-between">
           <div><label for="leaf-color" class="font-bold">Color:</label></div>
           <div>
-            <input id="leaf-color" class="color" type="color" name="body" value="#B31B1B" data-action="change->l-systems#update" data-l-systems-target="leafColor"></input>
+            <input id="leaf-color" class="color" type="color" name="body" value="#ffffff" data-action="input->l-systems#update" data-l-systems-target="leafColor"></input>
           </div>
         </div>
         <div class="flex justify-between">
           <div><label for="leaf-width" class="font-bold">Width:</label></div>
           <div>
-            <input id="leaf-width" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0.5" max="10.0" step="0.5" data-action="change->l-systems#update" data-l-systems-target="leafWidth">
+            <input id="leaf-width" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0.5" max="10.0" step="0.5" data-action="input->l-systems#update" data-l-systems-target="leafWidth">
           </div>
         </div>
         <div class="flex justify-between">
           <div><label for="leaf-length" class="font-bold">Length:</label></div>
           <div>
-            <input id="leaf-length" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0.5" max="10.0" step="0.5" data-action="change->l-systems#update" data-l-systems-target="leafLength">
+            <input id="leaf-length" class="bg-gray-200 accent-green-600 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" type="range" min="0.5" max="10.0" step="0.5" data-action="input->l-systems#update" data-l-systems-target="leafLength">
           </div>
         </div>
       </div>

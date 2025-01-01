@@ -25,6 +25,7 @@ const PresetData = [
       system: { iterations: 4 },
       branch: {
         length: 14,
+        alpha: 0.3
       },
       leaf: {
         length: 8,

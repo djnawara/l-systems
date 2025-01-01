@@ -5,7 +5,7 @@ import Renderer from 'modules/renderer';
 import PresetLSystems from 'modules/presets';
 
 export default class extends Controller {
-  static targets = ['canvas', 'branchColor', 'branchWidth', 'branchLength', 'branchAngle', 'leafColor', 'leafWidth', 'leafLength', 'iterations', 'preset'];
+  static targets = ['canvas', 'branchColor', 'branchWidth', 'branchLength', 'branchAlpha', 'branchAngle', 'leafColor', 'leafWidth', 'leafLength', 'iterations', 'preset'];
 
   lSystem;
   lSystems;
@@ -16,20 +16,20 @@ export default class extends Controller {
       console.log('L-Systems Controller connected');
     }
 
-    this._setCanvasSize();
-    this.renderer = new Renderer(this.canvasTarget);
-
     this.lSystems = PresetLSystems;
     const startingPreset = Math.round(Math.random() * (this.lSystems.length - 1));
     this.lSystem = this.lSystems[startingPreset];
     this.presetTarget.value = startingPreset;
 
+    this._setCanvasSize();
+    this._initializeRenderer();
     this._setControlValuesFromConfig(this.lSystem.renderingConfig);
     this._generateAndRender(this.iterationsTarget.value || 4);
   }
 
   reloadConfig(event) {
     this._setControlValuesFromConfig(this.lSystem.renderingConfig);
+    this._initializeRenderer();
     this._generateAndRender(this.iterationsTarget.value || 4);
   }
 
@@ -43,6 +43,7 @@ export default class extends Controller {
 
   update(event) {
     this.lSystem = this.lSystems[this.presetTarget.value];
+    this.renderer.updateConfig(this._config(this.lSystem.renderingConfig));
     this._generateAndRender(parseInt(this.iterationsTarget.value) || 6);
   }
 
@@ -56,7 +57,8 @@ export default class extends Controller {
       sentence = this.lSystem.generate(sentence);
     }
 
-    this.renderer.render(sentence, this._config(this.lSystem.renderingConfig));
+    const config = this._config(this.lSystem.renderingConfig);
+    this.renderer.render(sentence, config);
   }
 
   _config(defaultConfiguration) {
@@ -68,6 +70,7 @@ export default class extends Controller {
         color: this.branchColorTarget.value || defaultConfiguration.branch.color,
         width: parseFloat(this.branchWidthTarget.value) || defaultConfiguration.branch.width,
         length: parseFloat(this.branchLengthTarget.value) || defaultConfiguration.branch.length,
+        alpha: parseFloat(this.branchAlphaTarget.value) || defaultConfiguration.branch.alpha,
         angle: parseFloat(this.branchAngleTarget.value) || defaultConfiguration.branch.angle,
       },
       leaf: {
@@ -78,13 +81,22 @@ export default class extends Controller {
     };
   }
 
+  _initializeRenderer() {
+    this.renderer = new Renderer(this.canvasTarget, this.lSystem.renderingConfig);
+  }
+
   _setControlValuesFromConfig(config) {
+    let branchColor = config.branch.color;
+    if (Array.isArray(branchColor)) {
+      branchColor = branchColor[0];
+    }
     this.iterationsTarget.value = config.system.iterations;
-    this.branchColorTarget.value = config.branch.color;
+    this.branchColorTarget.value = branchColor;
     this.branchWidthTarget.value = config.branch.width;
     this.branchLengthTarget.value = config.branch.length;
+    this.branchAlphaTarget.value = config.branch.alpha;
     this.branchAngleTarget.value = config.branch.angle;
-    this.leafColorTarget.value = this._getLeafColor(config);
+    this.leafColorTarget.value = this.renderer.leafColor;
     this.leafWidthTarget.value = config.leaf.width;
     this.leafLengthTarget.value = config.leaf.length;
   }

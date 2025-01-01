@@ -9,6 +9,7 @@ const defaultBranchConfig = {
   color: '#80461B',
   length: 4,
   width: 2,
+  alpha: 0.85,
   angle: 22.5
 };
 const defaultLeafConfig = {

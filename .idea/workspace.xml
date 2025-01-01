@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="026ac813-ec7d-4de7-9992-50253e26eb02" name="Changes" comment="" />
+    <list default="true" id="026ac813-ec7d-4de7-9992-50253e26eb02" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/javascript/controllers/l_systems_controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/controllers/l_systems_controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/javascript/data/presets.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/data/presets.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/javascript/modules/presets.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/modules/presets.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/javascript/modules/renderer.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/modules/renderer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/home/show.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/show.html.erb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -153,7 +160,7 @@
       <option name="presentableId" value="Default" />
       <updated>1735661939475</updated>
       <workItem from="1735661940823" duration="23090000" />
-      <workItem from="1735697517668" duration="5708000" />
+      <workItem from="1735697517668" duration="9335000" />
     </task>
     <servers />
   </component>
