@@ -1,4 +1,4 @@
-// noinspection NpmUsedModulesInstalled
+// noinspection NpmUsedModulesInstalled,JSUnresolvedReference
 
 import {Controller} from "@hotwired/stimulus"
 import Renderer from 'modules/renderer';
@@ -25,6 +25,12 @@ export default class extends Controller {
     this._initializeRenderer();
     this._setControlValuesFromConfig(this.lSystem.renderingConfig);
     this._generateAndRender(this.iterationsTarget.value || 4);
+    window.addEventListener('resize', () => {
+      this._setCanvasSize();
+      let config = this._config(this.lSystem.renderingConfig);
+      this.renderer = new Renderer(this.canvasTarget, config);
+      this._generateAndRender(this.iterationsTarget.value || 4);
+    });
   }
 
   reloadConfig(event) {

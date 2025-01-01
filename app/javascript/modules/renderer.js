@@ -105,12 +105,8 @@ export default class Renderer {
       case 'rainbow':
         return this._buildRainbowGradients(context2D);
       case 'masked-rainbow':
-        const rainbowColors = ['#BB0000', '#BB6600', '#BBBB00', '#00BB00', '#0000BB', '#BB00BB'];
-        const darkRainbowColors = rainbowColors.map(color => {
-          return this._darken(color);
-        });
-
-        const gradient = context2D.createLinearGradient(1, 0, this.canvas.width, this.canvas.height);
+        const rainbowColors = ['#FF0000', '#FF6600', '#FFFF00', '#00FF00', '#0000FF', '#FF00FF'];
+        const gradient = context2D.createLinearGradient(0, 0, this.canvas.width, this.canvas.height);
         rainbowColors.map((color, index) => {
           gradient.addColorStop(index / 5, color);
         });
@@ -122,7 +118,7 @@ export default class Renderer {
   }
 
   _buildRainbowGradients(context2D) {
-    const rainbowColors = ['#BB0000', '#BB6600', '#AAAA00', '#00AA00', '#0000BB', '#BB00BB'];
+    const rainbowColors = ['#FF0000', '#FF6600', '#AAAA00', '#00AA00', '#0000FF', '#FF00FF'];
     const darkRainbowColors = rainbowColors.map(color => {
       return this._darken(color, -160);
     });
