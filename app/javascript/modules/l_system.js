@@ -18,7 +18,8 @@ export default class LSystem {
       this.ruleSets.forEach(ruleSet => {
         let character = currentString[i];
         if (character === ruleSet.symbol) {
-          updatedString += ruleSet.replacement;
+          const replacement = this._getReplacement(ruleSet);
+          updatedString += replacement;
           wasReplaced = true;
         }
       });
@@ -29,6 +30,22 @@ export default class LSystem {
     }
 
     return updatedString;
+  }
+
+  _getReplacement(ruleSet) {
+    if (ruleSet.replacement !== undefined) {
+      return ruleSet.replacement;
+    }
+
+    const roll = Math.round(Math.random() * 100) / 100
+    let odds = 0;
+    for (const option of ruleSet.replacements) {
+      odds += option.odds;
+      if (roll <= odds) {
+        return option.replacement;
+      }
+    }
+    return ruleSet.replacements[ruleSet.replacements.length - 1].replacement;
   }
 
   _copyString(string) {

@@ -133,6 +133,7 @@ export default class Renderer {
 
   _buildRainbowInterpolations(context2D) {
     const baseRainbowColors = ['#FF0000', '#FF6600', '#FFFF00', '#00FF00', '#0000FF', '#FF00FF'];
+    this.leafColor = baseRainbowColors[1];
     const desiredInterpolations = 15;
     let rainbowColors = [];
 

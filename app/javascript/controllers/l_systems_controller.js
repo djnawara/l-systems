@@ -34,8 +34,8 @@ export default class extends Controller {
   }
 
   reloadConfig(event) {
-    this._setControlValuesFromConfig(this.lSystem.renderingConfig);
     this._initializeRenderer();
+    this._setControlValuesFromConfig(this.lSystem.renderingConfig);
     this._generateAndRender(this.iterationsTarget.value || 4);
   }
 

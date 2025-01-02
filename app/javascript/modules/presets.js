@@ -25,7 +25,8 @@ const PresetLSystems = PresetData.map(presetDatum => {
     return new RuleSet({
       symbol: rule.symbol,
       odds: rule.odds,
-      replacement: rule.replacement
+      replacement: rule.replacement,
+      replacements: rule.replacements
     });
   });
 

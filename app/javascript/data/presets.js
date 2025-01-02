@@ -1,5 +1,57 @@
 const PresetData = [
   {
+    axiom: 'F',
+    rules: [
+      {
+        symbol: 'F', replacements: [
+          {odds: 0.33, replacement: 'F[+F]F[-F][F]'},
+          {odds: 0.33, replacement: 'F[+F][F]'},
+          {odds: 0.34, replacement: 'F[-F][F]'}
+        ]
+      }
+    ],
+    configOverrides: {
+      system: { iterations: 6 },
+      branch: {
+        width: 3,
+        length: 16,
+        alpha: 0.4
+      },
+      leaf: {
+        width: 6,
+        length: 5,
+        fillType: 'colors'
+      }
+    }
+  },
+  {
+    axiom: 'X',
+    rules: [
+      {
+        symbol: 'X',
+        replacements: [
+          {odds: 0.33, replacement: 'F[+X]F[-X]+X'},
+          {odds: 0.33, replacement: 'F[-X]F[-X]+X'},
+          {odds: 0.34, replacement: 'F[-X]F+X'}
+        ]
+      },
+      { symbol: 'F', replacement: 'FF'},
+    ],
+    configOverrides: {
+      system: { iterations: 7 },
+      branch: {
+        width: 3,
+        length: 4,
+        alpha: 0.4
+      },
+      leaf: {
+        width: 6,
+        length: 5,
+        fillType: 'colors'
+      }
+    }
+  },
+  {
     axiom: 'X',
     rules: [
       { symbol: 'F', replacement: 'FF' },
@@ -63,16 +115,16 @@ const PresetData = [
       { symbol: 'F', replacement: 'F > F[+F]F[-F]F'},
     ],
     configOverrides: {
-      system: { iterations: 3 },
+      system: { iterations: 4 },
       branch: {
         angle: 38,
         alpha: 0.4,
-        length: 12
+        length: 4
       },
       leaf: {
         length: 10,
-        width: 3,
-        fillType: 'colors'
+        width: 5,
+        fillType: 'linear-rainbow'
       }
     }
   },
