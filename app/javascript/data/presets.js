@@ -11,10 +11,10 @@ const PresetData = [
       }
     ],
     configOverrides: {
-      system: { iterations: 6 },
+      system: { iterations: 7 },
       branch: {
         width: 3,
-        length: 16,
+        length: 19,
         alpha: 0.4
       },
       leaf: {
@@ -41,7 +41,7 @@ const PresetData = [
       system: { iterations: 7 },
       branch: {
         width: 3,
-        length: 4,
+        length: 3,
         alpha: 0.4
       },
       leaf: {
