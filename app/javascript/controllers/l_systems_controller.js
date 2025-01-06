@@ -73,7 +73,10 @@ export default class extends Controller {
 
     return {
       system: {
-        iterations: this.iterationsTarget.value || defaultConfiguration.system.iterations
+        iterations: this.iterationsTarget.value || defaultConfiguration.system.iterations,
+        position: defaultConfiguration.system.position || 'bottom',
+        rotation: defaultConfiguration.system.rotation,
+        divisor: defaultConfiguration.system.divisor,
       },
       branch: {
         color: this.branchColorTarget.value || defaultConfiguration.branch.color,
@@ -101,18 +104,21 @@ export default class extends Controller {
     if (Array.isArray(branchColor)) {
       branchColor = branchColor[0];
     }
+    this.presetTarget.max = this.lSystems.length - 1;
     this.iterationsTarget.value = config.system.iterations;
     this.branchColorTarget.value = branchColor;
     this.branchWidthTarget.value = config.branch.width;
     this.branchLengthTarget.value = config.branch.length;
     this.branchAlphaTarget.value = config.branch.alpha;
     this.branchAngleTarget.value = config.branch.angle;
-    this.leafColorTarget.value = this.renderer.leafColor;
     this.leafWidthTarget.value = config.leaf.width;
     this.leafLengthTarget.value = config.leaf.length;
     this.leafFillTypeTargets
       .filter((radio) => radio.value === config.leaf.fillType)
       .forEach((radio) => radio.checked = true);
+    if (this.renderer.leafColor !== undefined) {
+      this.leafColorTarget.value = this.renderer.leafColor;
+    }
   }
 
   _setCanvasSize() {

@@ -16,29 +16,44 @@ export default class Renderer {
   }
 
   render(sentence) {
+    console.log(sentence);
     const config = this.config;
     const context2D = this.context2D;
     const gradients = this.gradients;
 
     context2D.resetTransform();
     context2D.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    context2D.transform(1, 0, 0, 1, this.canvas.width / 2, this.canvas.height);
+    let divisor = config.system.divisor === undefined ? 2 : config.system.divisor;
+    let width = this.canvas.width / divisor;
+    let height = this.canvas.height;
+    if (config.system.position === 'center') {
+      height /= 2;
+    }
+    context2D.transform(1, 0, 0, 1, width, height);
+    if (config.system.rotation !== undefined) {
+      context2D.rotate(config.system.rotation * Math.PI / 180);
+    }
 
     let leafIndex = 0;
 
     for (let i = 0; i < sentence.length; i++) {
-      const c = sentence[i];
+      const character = sentence[i];
 
-      if (c === 'F') {
-        this._drawBranch(context2D, config);
-      } else if (c === '+') {
-        context2D.rotate(config.branch.angle * Math.PI / 180);
-      } else if (c === '-') {
-        context2D.rotate(-config.branch.angle * Math.PI / 180);
-      } else if (c === '[') {
-        context2D.save();
-      } else if (c === ']') {
-        this._drawLeaf(gradients, context2D, config, leafIndex++);
+      switch(character) {
+        case '+':
+          context2D.rotate(config.branch.angle * Math.PI / 180);
+          break;
+        case '-':
+          context2D.rotate(-config.branch.angle * Math.PI / 180);
+          break;
+        case '[':
+          context2D.save();
+          break;
+        case ']':
+          this._drawLeaf(gradients, context2D, config, leafIndex++);
+          break;
+        default:
+          this._drawBranch(context2D, config);
       }
     }
   }
