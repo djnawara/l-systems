@@ -36,4 +36,4 @@ group :test do
   gem 'rspec'
 end
 
-gem "tailwindcss-rails", "~> 3.1"
+gem "tailwindcss-rails", "~> 3.2"
